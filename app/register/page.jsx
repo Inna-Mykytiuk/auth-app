@@ -1,6 +1,5 @@
 export const metadata = {
   title: 'Register page',
-  description: 'Register page',
 };
 
 export default function Register() {
