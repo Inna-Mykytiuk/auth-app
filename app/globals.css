@@ -37,7 +37,8 @@ body {
 
   display: flex;
   height: 100vh;
-  flex-direction: column;
+  justify-content: center; /* Горизонтальное центрирование */
+  align-items: center;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -91,10 +92,10 @@ button {
   cursor: pointer;
 }
 
-.container {
+/* .container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-}
+} */
