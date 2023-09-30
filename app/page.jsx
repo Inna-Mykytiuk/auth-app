@@ -1,11 +1,10 @@
-import ImageSection from '@/components/ImageSection';
-import FormSection from '@/components/FormSection';
+import LoginFormSection from '@/components/LoginFormSection';
 
-export default function Home() {
-  return (
-    <>
-      <ImageSection />
-      <FormSection />
-    </>
-  );
+export const metadata = {
+  title: 'Login page',
+};
+
+export default function Login() {
+
+  return <LoginFormSection />;
 }

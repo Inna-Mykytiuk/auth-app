@@ -1,24 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import ImageSection from '@/components/ImageSection';
-import FormSection from '@/components/FormSection';
 import Link from 'next/link';
-import styles from '../../styles/Form.module.css';
+import styles from '../styles/Form.module.css';
 import Image from 'next/image';
 import { HiAtSymbol, HiFingerPrint } from 'react-icons/hi';
 
-// export const metadata = {
-//   title: 'Login page',
-// };
-
-export default function Login() {
+const LoginFormSection = () => {
   const [show, setShow] = useState(false);
 
   return (
-    <>
-      <ImageSection />
-      <FormSection>
+    <div className="right flex flex-col justify-evenly px-10">
+      <div className="text-center py-10">
         <div className="3/4 mx-auto flex flex-col gap-10">
           <div className="title">
             <h1 className="text-gray-800 text-4xl font-bold py-4">Explore</h1>
@@ -94,7 +87,9 @@ export default function Login() {
             </Link>
           </p>
         </div>
-      </FormSection>
-    </>
+      </div>
+    </div>
   );
-}
+};
+
+export default LoginFormSection;
