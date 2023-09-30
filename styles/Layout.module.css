@@ -1,5 +1,5 @@
 .imgStyle {
-  @apply bg-gradient-to-r from-blue-500 to-indigo-500 rounded-md;
+  @apply bg-gradient-to-r from-blue-500 to-indigo-500 rounded-tl-md rounded-bl-md;
   position: relative;
   overflow: hidden;
 }
