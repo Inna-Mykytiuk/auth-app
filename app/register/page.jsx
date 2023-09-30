@@ -1,11 +1,9 @@
-export const metadata = {
-  title: 'Register page',
-};
+// import RegisterFormSection from '@/components/RegisterFormSection';
 
-export default function Register() {
-  return (
-    <div>
-      <h1>Register</h1>
-    </div>
-  );
-}
+// export const metadata = {
+//   title: 'Register page',
+// };
+
+// export default function Register() {
+//   return <RegisterFormSection />;
+// }

@@ -1,10 +1,9 @@
-import LoginFormSection from '@/components/LoginFormSection';
+import HomeSection from '@/components/HomeSection';
 
 export const metadata = {
-  title: 'Login page',
+  title: 'Home page',
 };
 
-export default function Login() {
-
-  return <LoginFormSection />;
+export default function Home() {
+  return <HomeSection />;
 }

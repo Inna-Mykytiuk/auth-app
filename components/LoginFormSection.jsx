@@ -5,9 +5,16 @@ import Link from 'next/link';
 import styles from '../styles/Form.module.css';
 import Image from 'next/image';
 import { HiAtSymbol, HiFingerPrint } from 'react-icons/hi';
+import { signIn, signOut } from 'next-auth/react';
+// import { GoogleButton } from './GoogleButton';
 
 const LoginFormSection = () => {
   const [show, setShow] = useState(false);
+
+  // Google Handler function
+  async function handleGoogleSignin() {
+    signIn('google', { callbackUrl: 'http://localhost:3000' });
+  }
 
   return (
     <div className="right flex flex-col justify-evenly px-10">
@@ -56,7 +63,11 @@ const LoginFormSection = () => {
               <button type="submit">Login</button>
             </div>
             <div className={styles.button_custom}>
-              <button type="button" className="flex gap-2 ">
+              <button
+                type="button"
+                className="flex gap-2"
+                onClick={handleGoogleSignin}
+              >
                 <p>Sign In with Google</p>
                 <Image
                   src={'/assets/google.svg'}
