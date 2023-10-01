@@ -15,6 +15,10 @@ const LoginFormSection = () => {
   async function handleGoogleSignin() {
     signIn('google', { callbackUrl: 'http://localhost:3000' });
   }
+  // Github Login
+  async function handleGithubSignin() {
+    signIn('github', { callbackUrl: 'http://localhost:3000' });
+  }
 
   return (
     <div className="right flex flex-col justify-evenly px-10">
@@ -78,7 +82,11 @@ const LoginFormSection = () => {
               </button>
             </div>
             <div className={styles.button_custom}>
-              <button type="button" className="flex gap-2 ">
+              <button
+                type="button"
+                className="flex gap-2"
+                onClick={handleGithubSignin}
+              >
                 <p>Sign In with Github </p>
                 <Image
                   src={'/assets/github.svg'}

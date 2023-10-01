@@ -8,7 +8,6 @@ function User({ session, handleSignOut }) {
 
       <div className="details">
         <h5>{session.user.name}</h5>
-        <h5>{session.user.email}</h5>
       </div>
 
       <div className="flex justify-center">

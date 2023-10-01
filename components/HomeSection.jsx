@@ -4,17 +4,27 @@ import styles from '../styles/Home.module.css';
 import { getSession, useSession, signOut } from 'next-auth/react';
 import { User } from './User';
 import { Guest } from './Guest';
+import { FallBackLoader } from './Loader';
 
 function HomeSection() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   function handleSignOut() {
     signOut();
   }
 
+  if (status === 'loading') {
+    // Тут ви можете відобразити лоадер або інші елементи очікування
+    return <FallBackLoader />;
+  }
+
   return (
     <div className={styles.container}>
-      {session ? User({ session, handleSignOut }) : Guest()}
+      {session ? (
+        <User session={session} handleSignOut={handleSignOut} />
+      ) : (
+        <Guest />
+      )}
     </div>
   );
 }
