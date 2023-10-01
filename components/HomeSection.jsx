@@ -14,7 +14,6 @@ function HomeSection() {
   }
 
   if (status === 'loading') {
-    // Тут ви можете відобразити лоадер або інші елементи очікування
     return <FallBackLoader />;
   }
 
