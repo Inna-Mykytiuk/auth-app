@@ -103,4 +103,4 @@ const LoginFormSection = () => {
   );
 };
 
-export default LoginFormSection;
+export { LoginFormSection };

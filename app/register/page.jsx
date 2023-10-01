@@ -1,4 +1,4 @@
-import RegisterFormSection from '@/components/RegisterFormSection';
+import { RegisterFormSection } from '@/components/RegisterFormSection';
 
 export const metadata = {
   title: 'Register page',

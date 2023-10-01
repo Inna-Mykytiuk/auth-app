@@ -10,4 +10,4 @@ const ImageSection = () => {
   );
 };
 
-export default ImageSection;
+export { ImageSection };

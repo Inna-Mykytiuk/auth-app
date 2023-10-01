@@ -1,4 +1,4 @@
-import LoginFormSection from '@/components/LoginFormSection';
+import { LoginFormSection } from '@/components/LoginFormSection';
 
 export const metadata = {
   title: 'Login page',

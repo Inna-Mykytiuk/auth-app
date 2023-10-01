@@ -1,6 +1,6 @@
 import './globals.css';
-import ImageSection from '@/components/ImageSection';
-import Providers from '@/components/Providers';
+import { ImageSection } from '@/components/ImageSection';
+import { Providers } from '@/components/Providers';
 
 export const metadata = {
   title: 'Home page',

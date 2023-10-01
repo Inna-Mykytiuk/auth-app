@@ -1,4 +1,4 @@
-import HomeSection from '@/components/HomeSection';
+import { HomeSection } from '@/components/HomeSection';
 
 export const metadata = {
   title: 'Home page',

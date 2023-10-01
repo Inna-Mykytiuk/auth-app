@@ -96,4 +96,4 @@ const RegisterFormSection = () => {
   );
 };
 
-export default RegisterFormSection;
+export { RegisterFormSection };
