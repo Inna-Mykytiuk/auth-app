@@ -7,5 +7,3 @@ export const metadata = {
 export default function Home() {
   return <HomeSection />;
 }
-
-//github

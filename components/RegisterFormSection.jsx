@@ -4,9 +4,26 @@ import { useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/Form.module.css';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from 'react-icons/hi';
+import { useFormik } from 'formik';
+import { registerValidate } from '@/app/lib/validate';
 
 const RegisterFormSection = () => {
   const [show, setShow] = useState({ password: false, cpassword: false });
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+      cpassword: '',
+    },
+    validate: registerValidate,
+    onSubmit,
+  });
+
+  async function onSubmit(values) {
+    console.log(values);
+  }
 
   return (
     <div className="right flex flex-col justify-evenly px-10">
@@ -21,38 +38,61 @@ const RegisterFormSection = () => {
           </div>
 
           {/* form */}
-          <form className="flex flex-col gap-5">
-            <div className={styles.input_group}>
+          <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
+            <div
+              className={`${styles.input_group} ${
+                formik.errors.username && formik.touched.username
+                  ? 'border-rose-600'
+                  : ''
+              }`}
+            >
               <input
                 className={styles.input_text}
                 type="text"
                 name="Username"
                 placeholder="Username"
                 autoComplete="current-Username"
+                {...formik.getFieldProps('username')}
               />
               <span className="icon flex items-center px-4">
                 <HiOutlineUser size={25} />
               </span>
             </div>
-            <div className={styles.input_group}>
+
+            <div
+              className={`${styles.input_group} ${
+                formik.errors.email && formik.touched.email
+                  ? 'border-rose-600'
+                  : ''
+              }`}
+            >
               <input
                 className={styles.input_text}
                 type="email"
                 name="email"
                 placeholder="Email"
                 autoComplete="current-email"
+                {...formik.getFieldProps('email')}
               />
               <span className="icon flex items-center px-4">
                 <HiAtSymbol size={25} />
               </span>
             </div>
-            <div className={styles.input_group}>
+
+            <div
+              className={`${styles.input_group} ${
+                formik.errors.password && formik.touched.password
+                  ? 'border-rose-600'
+                  : ''
+              }`}
+            >
               <input
                 className={styles.input_text}
                 type={`${show.password ? 'text' : 'password'}`}
                 name="password"
                 placeholder="Password"
                 autoComplete="current-password"
+                {...formik.getFieldProps('password')}
               />
               <span
                 className="icon flex items-center px-4"
@@ -61,13 +101,21 @@ const RegisterFormSection = () => {
                 <HiFingerPrint size={25} />
               </span>
             </div>
-            <div className={styles.input_group}>
+
+            <div
+              className={`${styles.input_group} ${
+                formik.errors.cpassword && formik.touched.cpassword
+                  ? 'border-rose-600'
+                  : ''
+              }`}
+            >
               <input
                 className={styles.input_text}
                 type={`${show.cpassword ? 'text' : 'password'}`}
                 name="cpassword"
                 placeholder="Confirm password"
                 autoComplete="current-password"
+                {...formik.getFieldProps('cpassword')}
               />
               <span
                 className="icon flex items-center px-4"
@@ -79,7 +127,7 @@ const RegisterFormSection = () => {
 
             {/* register buttons */}
             <div className={styles.button}>
-              <button type="submit">Login</button>
+              <button type="submit">Sign Up</button>
             </div>
           </form>
 
