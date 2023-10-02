@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
 
-function Users() {
+function UserInfo() {
   const { data: session } = useSession();
 
   return (
@@ -22,10 +22,16 @@ function Users() {
       <div className="flex justify-center">
         <button
           className="mt-5 px-10 py-1 rounded-sm bg-indigo-500"
+          // onClick={() => signOut()}
           onClick={() => signOut()}
         >
           Sign Out
         </button>
+        {/* <Link href={'/'}>
+          <p className="mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50">
+            Sign Out
+          </p>
+        </Link> */}
       </div>
 
       <div className="flex justify-center">
@@ -39,4 +45,4 @@ function Users() {
   );
 }
 
-export { Users };
+export { UserInfo };

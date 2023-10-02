@@ -55,7 +55,7 @@ import {
   signOut,
 } from 'next-auth/react';
 import { getServerSession } from 'next-auth/react';
-import { Users } from './Users';
+import { Users } from './UserInfo';
 import { Guest } from './Guest';
 import { FallBackLoader } from './Loader';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
