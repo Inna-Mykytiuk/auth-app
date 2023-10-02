@@ -5,38 +5,91 @@ import Link from 'next/link';
 import styles from '../styles/Form.module.css';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from 'react-icons/hi';
 // import { signIn, signOut } from 'next-auth/react';
-import { useFormik } from 'formik';
-import { registerValidate } from '@/app/lib/validate';
-// import { useRouter } from 'next/router';
+// import { useFormik } from 'formik';
+// import { registerValidate } from '@/app/lib/validate';
+import { useRouter } from 'next/navigation';
 
 const RegisterFormSection = () => {
+  const router = useRouter();
+
   const [show, setShow] = useState({ password: false, cpassword: false });
-  // const router = useRouter();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [cpassword, setCpassword] = useState('');
+  const [error, setError] = useState('');
 
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      email: '',
-      password: '',
-      cpassword: '',
-    },
-    validate: registerValidate,
-    onSubmit,
-  });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     username: '',
+  //     email: '',
+  //     password: '',
+  //     cpassword: '',
+  //   },
+  //   validate: registerValidate,
+  //   handleSubmit,
+  // });
 
-  async function onSubmit(values) {
-    const options = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values),
-    };
+  const handleSubmit = async e => {
+    e.preventDefault();
 
-    await fetch('http://localhost:3000/api/auth/signup', options)
-      .then(res => res.json())
-      .then(data => {
-        if (data) router.push('http://localhost:3000');
+    if (!name || !email || !password || !cpassword) {
+      setError('All fields are necessary.');
+      return;
+    }
+
+    try {
+      const resUserExists = await fetch('api/userExists', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
       });
-  }
+
+      if (resUserExists.ok) {
+        const json = await resUserExists.json();
+        const user = json.user;
+
+        if (user) {
+          setError('User already exists.');
+          return;
+        }
+      } else {
+        console.log('Failed to check user existence.');
+        return;
+      }
+
+      const { user } = await resUserExists.json();
+
+      if (user) {
+        setError('User already exists.');
+        return;
+      }
+
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      if (res.ok) {
+        const form = e.target;
+        form.reset();
+        router.push('/');
+      } else {
+        console.log('User registration failed.');
+      }
+    } catch (error) {
+      console.log('Error during registration: ', error);
+    }
+  };
 
   return (
     <div className="right flex flex-col justify-evenly px-10">
@@ -51,61 +104,43 @@ const RegisterFormSection = () => {
           </div>
 
           {/* form */}
-          <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
-            <div
-              className={`${styles.input_group} ${
-                formik.errors.username && formik.touched.username
-                  ? 'border-rose-600'
-                  : ''
-              }`}
-            >
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+            <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type="text"
                 name="Username"
                 placeholder="Username"
                 autoComplete="current-Username"
-                {...formik.getFieldProps('username')}
+                onChange={e => setName(e.target.value)}
               />
               <span className="icon flex items-center px-4">
                 <HiOutlineUser size={25} />
               </span>
             </div>
 
-            <div
-              className={`${styles.input_group} ${
-                formik.errors.email && formik.touched.email
-                  ? 'border-rose-600'
-                  : ''
-              }`}
-            >
+            <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type="email"
                 name="email"
                 placeholder="Email"
                 autoComplete="current-email"
-                {...formik.getFieldProps('email')}
+                onChange={e => setEmail(e.target.value)}
               />
               <span className="icon flex items-center px-4">
                 <HiAtSymbol size={25} />
               </span>
             </div>
 
-            <div
-              className={`${styles.input_group} ${
-                formik.errors.password && formik.touched.password
-                  ? 'border-rose-600'
-                  : ''
-              }`}
-            >
+            <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type={`${show.password ? 'text' : 'password'}`}
                 name="password"
                 placeholder="Password"
                 autoComplete="current-password"
-                {...formik.getFieldProps('password')}
+                onChange={e => setPassword(e.target.value)}
               />
               <span
                 className="icon flex items-center px-4"
@@ -115,20 +150,14 @@ const RegisterFormSection = () => {
               </span>
             </div>
 
-            <div
-              className={`${styles.input_group} ${
-                formik.errors.cpassword && formik.touched.cpassword
-                  ? 'border-rose-600'
-                  : ''
-              }`}
-            >
+            <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type={`${show.cpassword ? 'text' : 'password'}`}
                 name="cpassword"
                 placeholder="Confirm password"
                 autoComplete="current-password"
-                {...formik.getFieldProps('cpassword')}
+                onChange={e => setCpassword(e.target.value)}
               />
               <span
                 className="icon flex items-center px-4"
@@ -142,15 +171,19 @@ const RegisterFormSection = () => {
             <div type="submit" className={styles.button}>
               <button type="submit">Sign Up</button>
             </div>
+            {error && (
+              <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                {error}
+              </div>
+            )}
+            {/* bottom */}
+            <p className="text-center text-gray-400 ">
+              Have an account?
+              <Link href={'/login'}>
+                <span className="text-blue-700">Sign In</span>
+              </Link>
+            </p>
           </form>
-
-          {/* bottom */}
-          <p className="text-center text-gray-400 ">
-            Have an account?
-            <Link href={'/login'}>
-              <span className="text-blue-700">Sign In</span>
-            </Link>
-          </p>
         </div>
       </div>
     </div>

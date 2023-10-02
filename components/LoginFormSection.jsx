@@ -5,35 +5,60 @@ import Link from 'next/link';
 import styles from '../styles/Form.module.css';
 import Image from 'next/image';
 import { HiAtSymbol, HiFingerPrint } from 'react-icons/hi';
-import { signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { useFormik } from 'formik';
 import { loginValidate } from '@/app/lib/validate';
+import { useRouter } from 'next/navigation';
 // import { GoogleButton } from './GoogleButton';
 // import { useRouter } from 'next/router';
 
 const LoginFormSection = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [show, setShow] = useState(false);
-  // const router = useRouter();
+  const router = useRouter();
 
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validate: loginValidate,
-    onSubmit,
-  });
+  // const formik = useFormik({
+  //   initialValues: {
+  //     email: '',
+  //     password: '',
+  //   },
+  //   validate: loginValidate,
+  //   handleSubmit,
+  // });
 
-  async function onSubmit(values) {
-    const status = await signIn('credentials', {
-      redirect: false,
-      email: values.email,
-      password: values.password,
-      callbackUrl: '/',
-    });
+  // async function onSubmit(values) {
+  //   const status = await signIn('credentials', {
+  //     redirect: false,
+  //     email: values.email,
+  //     password: values.password,
+  //     callbackUrl: '/',
+  //   });
 
-    if (status.ok) router.push(status.url);
-  }
+  //   if (status.ok) router.push(status.url);
+  // }
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    try {
+      const res = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (res.error) {
+        setError('Invalid Credentials');
+        return;
+      }
+
+      router.replace('dashboard');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // Google Handler function
   async function handleGoogleSignin() {
@@ -57,21 +82,15 @@ const LoginFormSection = () => {
           </div>
 
           {/* form */}
-          <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
-            <div
-              className={`${styles.input_group} ${
-                formik.errors.email && formik.touched.email
-                  ? 'border-rose-600'
-                  : ''
-              }`}
-            >
+          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+            <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type="email"
                 name="email"
                 placeholder="Email"
                 autoComplete="current-email"
-                {...formik.getFieldProps('email')}
+                onChange={e => setEmail(e.target.value)}
               />
               <span className="icon flex items-center px-4">
                 <HiAtSymbol size={25} />
@@ -83,20 +102,14 @@ const LoginFormSection = () => {
               <></>
             )} */}
 
-            <div
-              className={`${styles.input_group} ${
-                formik.errors.password && formik.touched.password
-                  ? 'border-rose-600'
-                  : ''
-              }`}
-            >
+            <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type={`${show ? 'text' : 'password'}`}
                 name="password"
                 placeholder="password"
                 autoComplete="current-password"
-                {...formik.getFieldProps('password')}
+                onChange={e => setPassword(e.target.value)}
               />
               <span
                 className="icon flex items-center px-4"
@@ -105,16 +118,16 @@ const LoginFormSection = () => {
                 <HiFingerPrint size={25} />
               </span>
             </div>
-            {/* {formik.errors.password && formik.touched.password ? (
-              <span className="text-rose-500">{formik.errors.password}</span>
-            ) : (
-              <></>
-            )} */}
 
             {/* login buttons */}
             <div className={styles.button}>
               <button type="submit">Login</button>
             </div>
+            {error && (
+              <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                {error}
+              </div>
+            )}
 
             <div className={styles.button_custom}>
               <button
@@ -148,15 +161,14 @@ const LoginFormSection = () => {
                 ></Image>
               </button>
             </div>
+            {/* bottom */}
+            <p className="text-center text-gray-400 ">
+              don&apos;t have an account yet?{' '}
+              <Link href={'/register'}>
+                <span className="text-blue-700">Sign Up</span>
+              </Link>
+            </p>
           </form>
-
-          {/* bottom */}
-          <p className="text-center text-gray-400 ">
-            don&apos;t have an account yet?{' '}
-            <Link href={'/register'}>
-              <span className="text-blue-700">Sign Up</span>
-            </Link>
-          </p>
         </div>
       </div>
     </div>

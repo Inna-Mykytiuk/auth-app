@@ -1,12 +1,12 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
+import { User } from '@/app/model/Schema';
+import { connectMongoDB } from '@/app/lib/mongodb';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { connectMongo } from '@/app/database/connect';
-import { Users } from '@/app/model/Schema';
-import { compare } from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 
-const handler = NextAuth({
+export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     // Google Provider
@@ -19,33 +19,42 @@ const handler = NextAuth({
       clientSecret: process.env.GITHUB_SECRET,
     }),
     CredentialsProvider({
-      name: 'Credentials',
-      async authorize(credentials, req) {
-        connectMongo().catch(error => {
-          error: 'Connection Failed...!';
-        });
+      name: 'credentials',
+      credentials: {},
 
-        // check user existance
-        const result = await Users.findOne({ email: credentials.email });
-        if (!result) {
-          throw new Error('No user Found with Email Please Sign Up...!');
+      async authorize(credentials) {
+        const { email, password } = credentials;
+
+        try {
+          await connectMongoDB();
+          const user = await User.findOne({ email });
+
+          if (!user) {
+            return null;
+          }
+
+          const passwordsMatch = await bcrypt.compare(password, user.password);
+
+          if (!passwordsMatch) {
+            return null;
+          }
+
+          return user;
+        } catch (error) {
+          console.log('Error: ', error);
         }
-
-        // compare()
-        const checkPassword = await compare(
-          credentials.password,
-          result.password
-        );
-
-        // incorrect password
-        if (!checkPassword || result.email !== credentials.email) {
-          throw new Error("Username or Password doesn't match");
-        }
-
-        return result;
       },
     }),
   ],
-});
+  session: {
+    strategy: 'jwt',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: '/',
+  },
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
