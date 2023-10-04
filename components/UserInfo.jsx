@@ -26,7 +26,7 @@ function UserInfo() {
       <div className="flex flex-col gap-2">
         <div className={styles.button}>
           <button type="button" onClick={() => signOut()}>
-            Log out
+            Login
           </button>
         </div>
 
