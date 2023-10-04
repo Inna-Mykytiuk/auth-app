@@ -1,5 +1,7 @@
 import mongoose, { Schema, models } from 'mongoose';
 
+const emailRegexp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+
 const userSchema = new Schema(
   {
     name: {
@@ -9,6 +11,8 @@ const userSchema = new Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
+      match: emailRegexp,
     },
     password: {
       type: String,

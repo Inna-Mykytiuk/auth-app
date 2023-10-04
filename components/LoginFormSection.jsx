@@ -50,7 +50,6 @@ const LoginFormSection = () => {
   // Google Handler function
   async function handleGoogleSignin() {
     signIn('google', { callbackUrl: 'http://localhost:3000' });
-    // signIn('google');
   }
 
   return (
