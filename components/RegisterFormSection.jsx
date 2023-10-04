@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/Form.module.css';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from 'react-icons/hi';
+// import { signIn, signOut } from 'next-auth/react';
 // import { useFormik } from 'formik';
 // import { registerValidate } from '@/app/lib/validate';
 import { useRouter } from 'next/navigation';
@@ -93,7 +94,8 @@ const RegisterFormSection = () => {
           <div className="title">
             <h1 className="text-gray-800 text-4xl font-bold py-4">Register</h1>
             <p className="w-3/4 mx-auto text-gray-400">
-              Complete the registration to unlock exclusive access.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
+              officia?
             </p>
           </div>
 

@@ -26,6 +26,17 @@ const LoginFormSection = () => {
   //   handleSubmit,
   // });
 
+  // async function onSubmit(values) {
+  //   const status = await signIn('credentials', {
+  //     redirect: false,
+  //     email: values.email,
+  //     password: values.password,
+  //     callbackUrl: '/',
+  //   });
+
+  //   if (status.ok) router.push(status.url);
+  // }
+
   const handleSubmit = async e => {
     e.preventDefault();
 
@@ -60,7 +71,8 @@ const LoginFormSection = () => {
           <div className="title">
             <h1 className="text-gray-800 text-4xl font-bold py-4">Explore</h1>
             <p className="w-3/4 mx-auto text-gray-400">
-              Secure your spot by signing up or logging in.
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores,
+              officia?
             </p>
           </div>
 
