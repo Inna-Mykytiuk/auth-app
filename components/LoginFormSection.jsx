@@ -44,9 +44,13 @@ const LoginFormSection = () => {
 
     try {
       const res = await signIn('credentials', {
+        redirect: false,
+
         email,
         password,
         redirect: false,
+
+        callbackUrl: '/',
       });
 
       if (res.error) {
