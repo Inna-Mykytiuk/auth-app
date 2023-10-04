@@ -4,10 +4,6 @@ import { redirect } from 'next/navigation';
 import { LoginFormSection } from '@/components/LoginFormSection';
 import { authOptions } from './api/auth/[...nextauth]/route';
 
-// export const metadata = {
-//   title: 'Home page',
-// };
-
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
