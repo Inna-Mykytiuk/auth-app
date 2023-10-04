@@ -9,22 +9,12 @@ import { FallBackLoader } from './Loader';
 function HomeSection() {
   const { data: session, status } = useSession();
 
-  function handleSignOut() {
-    signOut();
-  }
-
   if (status === 'loading') {
     return <FallBackLoader />;
   }
 
   return (
-    <div className={styles.container}>
-      {session ? (
-        <UserInfo session={session} handleSignOut={handleSignOut} />
-      ) : (
-        <Guest />
-      )}
-    </div>
+    <div className={styles.container}>{session ? <UserInfo /> : <Guest />}</div>
   );
 }
 

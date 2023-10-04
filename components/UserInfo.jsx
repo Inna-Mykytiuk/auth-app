@@ -3,10 +3,10 @@
 
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
-// import { useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
-function UserInfo({ session, handleSignOut }) {
-  // const { data: session } = useSession();
+function UserInfo() {
+  const { data: session } = useSession();
 
   return (
     <main className="container mx-auto text-center py-20">
@@ -22,8 +22,8 @@ function UserInfo({ session, handleSignOut }) {
       <div className="flex justify-center">
         <button
           className="mt-5 px-10 py-1 rounded-sm bg-indigo-500"
-          onClick={handleSignOut}
-          // onClick={() => signOut()}
+          // onClick={handleSignOut}
+          onClick={() => signOut()}
         >
           Sign Out
         </button>
