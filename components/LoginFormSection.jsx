@@ -44,13 +44,12 @@ const LoginFormSection = () => {
 
     try {
       const res = await signIn('credentials', {
-        redirect: false,
-
         email,
         password,
         redirect: false,
 
-        callbackUrl: '/',
+        //add
+        callbackUrl: '/dashboard',
       });
 
       if (res.error) {
@@ -68,10 +67,6 @@ const LoginFormSection = () => {
   async function handleGoogleSignin() {
     signIn('google', { callbackUrl: 'http://localhost:3000' });
   }
-  // Github Login
-  // async function handleGithubSignin() {
-  //   signIn('github', { callbackUrl: 'http://localhost:3000' });
-  // }
 
   return (
     <div className="right flex flex-col justify-evenly px-10">
