@@ -99,6 +99,34 @@ const RegisterFormSection = () => {
     }
 
     try {
+      const resUserExists = await fetch('api/userExists', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      // if (resUserExists.ok) {
+      //   const json = await resUserExists.json();
+      //   const user = json.user;
+
+      //   if (user) {
+      //     setError('User already exists.');
+      //     return;
+      //   }
+      // } else {
+      //   console.log('Failed to check user existence.');
+      //   return;
+      // }
+
+      const { user } = await resUserExists.json();
+
+      if (user) {
+        setError('User already exists.');
+        return;
+      }
+
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: {
@@ -114,6 +142,7 @@ const RegisterFormSection = () => {
       if (res.ok) {
         const form = e.target;
         form.reset();
+        //redirect to main page(for our case its login fon now)
         router.push('/');
       } else {
         console.log('User registration failed.');
