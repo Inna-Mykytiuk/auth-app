@@ -111,10 +111,6 @@ const RegisterFormSection = () => {
       //   const json = await resUserExists.json();
       //   const user = json.user;
 
-      //   if (user) {
-      //     setError('User already exists.');
-      //     return;
-      //   }
       // } else {
       //   console.log('Failed to check user existence.');
       //   return;
@@ -240,7 +236,7 @@ const RegisterFormSection = () => {
             {/* bottom */}
             <p className="text-center text-gray-400 ">
               Have an account?
-              <Link href={'/login'}>
+              <Link href={'/'}>
                 <span className="text-blue-700">Sign In</span>
               </Link>
             </p>

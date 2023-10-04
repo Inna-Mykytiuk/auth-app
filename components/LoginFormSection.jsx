@@ -9,8 +9,6 @@ import { signIn } from 'next-auth/react';
 import { useFormik } from 'formik';
 import { loginValidate } from '@/app/lib/validate';
 import { useRouter } from 'next/navigation';
-// import { GoogleButton } from './GoogleButton';
-// import { useRouter } from 'next/router';
 
 const LoginFormSection = () => {
   const [email, setEmail] = useState('');
@@ -63,6 +61,7 @@ const LoginFormSection = () => {
   // Google Handler function
   async function handleGoogleSignin() {
     signIn('google', { callbackUrl: 'http://localhost:3000' });
+    // signIn('google');
   }
 
   return (
