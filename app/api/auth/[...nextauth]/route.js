@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import GithubProvider from 'next-auth/providers/github';
+// import GithubProvider from 'next-auth/providers/github';
 import { User } from '@/app/model/Schema';
 import { connectMongoDB } from '@/app/lib/mongodb';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -13,10 +13,10 @@ export const authOptions = {
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
     }),
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
-    }),
+    // GithubProvider({
+    //   clientId: process.env.GITHUB_ID,
+    //   clientSecret: process.env.GITHUB_SECRET,
+    // }),
     CredentialsProvider({
       name: 'credentials',
       credentials: {},

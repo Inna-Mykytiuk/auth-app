@@ -30,43 +30,75 @@ const RegisterFormSection = () => {
   //   handleSubmit,
   // });
 
+  // const handleSubmit = async e => {
+  //   e.preventDefault();
+
+  //   if (!name || !email || !password) {
+  //     setError('All fields are necessary.');
+  //     return;
+  //   }
+
+  //   try {
+  //     const resUserExists = await fetch('api/userExists', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ email }),
+  //     });
+
+  //     if (resUserExists.ok) {
+  //       const json = await resUserExists.json();
+  //       const user = json.user;
+
+  //       if (user) {
+  //         setError('User already exists.');
+  //         return;
+  //       }
+  //     } else {
+  //       console.log('Failed to check user existence.');
+  //       return;
+  //     }
+
+  //     const { user } = await resUserExists.json();
+
+  //     if (user) {
+  //       setError('User already exists.');
+  //       return;
+  //     }
+
+  //     const res = await fetch('/api/register', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         name,
+  //         email,
+  //         password,
+  //       }),
+  //     });
+
+  //     if (res.ok) {
+  //       const form = e.target;
+  //       form.reset();
+  //       router.push('/');
+  //     } else {
+  //       console.log('User registration failed.');
+  //     }
+  //   } catch (error) {
+  //     console.log('Error during registration: ', error);
+  //   }
+  // };
   const handleSubmit = async e => {
     e.preventDefault();
 
-    if (!name || !email || !password || !cpassword) {
+    if (!name || !email || !password) {
       setError('All fields are necessary.');
       return;
     }
 
     try {
-      const resUserExists = await fetch('api/userExists', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      if (resUserExists.ok) {
-        const json = await resUserExists.json();
-        const user = json.user;
-
-        if (user) {
-          setError('User already exists.');
-          return;
-        }
-      } else {
-        console.log('Failed to check user existence.');
-        return;
-      }
-
-      const { user } = await resUserExists.json();
-
-      if (user) {
-        setError('User already exists.');
-        return;
-      }
-
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: {
@@ -150,7 +182,7 @@ const RegisterFormSection = () => {
               </span>
             </div>
 
-            <div className={styles.input_group}>
+            {/* <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type={`${show.cpassword ? 'text' : 'password'}`}
@@ -165,7 +197,7 @@ const RegisterFormSection = () => {
               >
                 <HiFingerPrint size={25} />
               </span>
-            </div>
+            </div> */}
 
             {/* register buttons */}
             <div type="submit" className={styles.button}>
