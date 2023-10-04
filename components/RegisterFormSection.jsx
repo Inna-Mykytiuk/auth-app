@@ -30,66 +30,6 @@ const RegisterFormSection = () => {
   //   handleSubmit,
   // });
 
-  // const handleSubmit = async e => {
-  //   e.preventDefault();
-
-  //   if (!name || !email || !password) {
-  //     setError('All fields are necessary.');
-  //     return;
-  //   }
-
-  //   try {
-  //     const resUserExists = await fetch('api/userExists', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ email }),
-  //     });
-
-  //     if (resUserExists.ok) {
-  //       const json = await resUserExists.json();
-  //       const user = json.user;
-
-  //       if (user) {
-  //         setError('User already exists.');
-  //         return;
-  //       }
-  //     } else {
-  //       console.log('Failed to check user existence.');
-  //       return;
-  //     }
-
-  //     const { user } = await resUserExists.json();
-
-  //     if (user) {
-  //       setError('User already exists.');
-  //       return;
-  //     }
-
-  //     const res = await fetch('/api/register', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         name,
-  //         email,
-  //         password,
-  //       }),
-  //     });
-
-  //     if (res.ok) {
-  //       const form = e.target;
-  //       form.reset();
-  //       router.push('/');
-  //     } else {
-  //       console.log('User registration failed.');
-  //     }
-  //   } catch (error) {
-  //     console.log('Error during registration: ', error);
-  //   }
-  // };
   const handleSubmit = async e => {
     e.preventDefault();
 
@@ -107,14 +47,13 @@ const RegisterFormSection = () => {
         body: JSON.stringify({ email }),
       });
 
-      // if (resUserExists.ok) {
-      //   const json = await resUserExists.json();
-      //   const user = json.user;
-
-      // } else {
-      //   console.log('Failed to check user existence.');
-      //   return;
-      // }
+      if (resUserExists.ok) {
+        const json = await resUserExists.json();
+        const user = json.user;
+      } else {
+        console.log('Failed to check user existence.');
+        return;
+      }
 
       const { user } = await resUserExists.json();
 
@@ -139,7 +78,7 @@ const RegisterFormSection = () => {
         const form = e.target;
         form.reset();
         //redirect to main page(for our case its login fon now)
-        router.push('/');
+        router.push('/login');
       } else {
         console.log('User registration failed.');
       }
@@ -235,8 +174,8 @@ const RegisterFormSection = () => {
             )}
             {/* bottom */}
             <p className="text-center text-gray-400 ">
-              Have an account?
-              <Link href={'/'}>
+              Have an account?{' '}
+              <Link href={'/login'}>
                 <span className="text-blue-700">Sign In</span>
               </Link>
             </p>
