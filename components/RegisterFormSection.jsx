@@ -8,6 +8,7 @@ import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from 'react-icons/hi';
 // import { useFormik } from 'formik';
 // import { registerValidate } from '@/app/lib/validate';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 const RegisterFormSection = () => {
   const router = useRouter();
@@ -19,71 +20,23 @@ const RegisterFormSection = () => {
   const [cpassword, setCpassword] = useState('');
   const [error, setError] = useState('');
 
-  // const formik = useFormik({
-  //   initialValues: {
-  //     username: '',
-  //     email: '',
-  //     password: '',
-  //     cpassword: '',
-  //   },
-  //   validate: registerValidate,
-  //   handleSubmit,
-  // });
-
   const handleSubmit = async e => {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      setError('All fields are necessary.');
-      return;
+      setError('All fields are necessary');
     }
 
     try {
-      const resUserExists = await fetch('api/userExists', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
+      const response = await axios.post('/api/auth/register', {
+        name,
+        email,
+        password,
       });
-
-      if (resUserExists.ok) {
-        const json = await resUserExists.json();
-        const user = json.user;
-      } else {
-        console.log('Failed to check user existence.');
-        return;
-      }
-
-      const { user } = await resUserExists.json();
-
-      if (user) {
-        setError('User already exists.');
-        return;
-      }
-
-      const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-
-      if (res.ok) {
-        const form = e.target;
-        form.reset();
-        //redirect to main page(for our case its login fon now)
-        router.push('/login');
-      } else {
-        console.log('User registration failed.');
-      }
+      console.log('Register success', response.data);
+      router.push('/login');
     } catch (error) {
-      console.log('Error during registration: ', error);
+      console.error('Registration error:', error.response.data);
     }
   };
 
@@ -187,3 +140,71 @@ const RegisterFormSection = () => {
 };
 
 export { RegisterFormSection };
+
+// const formik = useFormik({
+//   initialValues: {
+//     username: '',
+//     email: '',
+//     password: '',
+//     cpassword: '',
+//   },
+//   validate: registerValidate,
+//   handleSubmit,
+// });
+
+// const handleSubmit = async e => {
+//   e.preventDefault();
+
+//   if (!name || !email || !password) {
+//     setError('All fields are necessary.');
+//     return;
+//   }
+
+//   try {
+//     const resUserExists = await fetch('api/userExists', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ email }),
+//     });
+
+//     if (resUserExists.ok) {
+//       const json = await resUserExists.json();
+//       const user = json.user;
+//     } else {
+//       console.log('Failed to check user existence.');
+//       return;
+//     }
+
+//     const { user } = await resUserExists.json();
+
+//     if (user) {
+//       setError('User already exists.');
+//       return;
+//     }
+
+//     const res = await fetch('/api/register', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({
+//         name,
+//         email,
+//         password,
+//       }),
+//     });
+
+//     if (res.ok) {
+//       const form = e.target;
+//       form.reset();
+//       //redirect to main page(for our case its login fon now)
+//       router.push('/login');
+//     } else {
+//       console.log('User registration failed.');
+//     }
+//   } catch (error) {
+//     console.log('Error during registration: ', error);
+//   }
+// };
