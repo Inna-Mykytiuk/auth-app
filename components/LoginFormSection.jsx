@@ -47,9 +47,6 @@ const LoginFormSection = () => {
         email,
         password,
         redirect: false,
-
-        //add
-        callbackUrl: '/dashboard',
       });
 
       if (res.error) {
