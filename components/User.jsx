@@ -1,37 +1,22 @@
 // Authorize User
-'use client';
-
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
-// import { useSession } from 'next-auth/react';
 
-function UserInfo({ session, handleSignOut }) {
-  // const { data: session } = useSession();
-
+function User({ session, handleSignOut }) {
   return (
     <main className="container mx-auto text-center py-20">
       <h3 className="text-4xl font-bold">Authorize User Homepage</h3>
 
-      <div>
-        Name: <span className="font-bold">{session?.user?.name}</span>
-      </div>
-      <div>
-        Email: <span className="font-bold">{session?.user?.email}</span>
+      <div className="details">
+        <h5>{session.user.name}</h5>
       </div>
 
       <div className="flex justify-center">
         <button
           className="mt-5 px-10 py-1 rounded-sm bg-indigo-500"
           onClick={handleSignOut}
-          // onClick={() => signOut()}
         >
           Sign Out
         </button>
-        {/* <Link href={'/'}>
-          <p className="mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50">
-            Sign Out
-          </p>
-        </Link> */}
       </div>
 
       <div className="flex justify-center">
@@ -45,4 +30,4 @@ function UserInfo({ session, handleSignOut }) {
   );
 }
 
-export { UserInfo };
+export { User };
