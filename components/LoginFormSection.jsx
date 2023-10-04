@@ -146,21 +146,6 @@ const LoginFormSection = () => {
               </button>
             </div>
 
-            {/* <div className={styles.button_custom}>
-              <button
-                type="button"
-                className="flex gap-2"
-                onClick={handleGithubSignin}
-              >
-                <p>Sign In with Github </p>
-                <Image
-                  src={'/assets/github.svg'}
-                  alt=""
-                  width={25}
-                  height={25}
-                ></Image>
-              </button>
-            </div> */}
             {/* bottom */}
             <p className="text-center text-gray-400 ">
               don&apos;t have an account yet?{' '}
