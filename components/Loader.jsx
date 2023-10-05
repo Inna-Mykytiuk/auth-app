@@ -1,3 +1,5 @@
+'use client'
+
 import { Oval } from 'react-loader-spinner';
 
 const FallBackLoader = () => {

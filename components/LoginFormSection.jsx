@@ -18,6 +18,23 @@ const LoginFormSection = () => {
 
   const router = useRouter();
 
+  const handleChange = e => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'email':
+        setEmail(value);
+        break;
+
+      case 'password':
+        setPassword(value);
+        break;
+
+      default:
+        console.warn(`Field type name - ${name} doesn't work`);
+    }
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
 
@@ -67,7 +84,8 @@ const LoginFormSection = () => {
                 name="email"
                 placeholder="Email"
                 autoComplete="current-email"
-                onChange={e => setEmail(e.target.value)}
+                value={email}
+                onChange={handleChange}
               />
               <span className="icon flex items-center px-4">
                 <HiAtSymbol size={25} />
@@ -86,7 +104,8 @@ const LoginFormSection = () => {
                 name="password"
                 placeholder="password"
                 autoComplete="current-password"
-                onChange={e => setPassword(e.target.value)}
+                value={password}
+                onChange={handleChange}
               />
               <span
                 className="icon flex items-center px-4"
