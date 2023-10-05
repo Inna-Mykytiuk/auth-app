@@ -4,14 +4,14 @@ import styles from '../styles/Home.module.css';
 import { getSession, useSession, signOut } from 'next-auth/react';
 import { UserInfo } from './UserInfo';
 import { Guest } from './Guest';
-// import { FallBackLoader } from './Loader';
+import { FallBackLoader } from './Loader';
 
 function HomeSection() {
   const { data: session, status } = useSession();
 
-  // if (status === 'loading') {
-  //   return <FallBackLoader />;
-  // }
+  if (status === 'loading') {
+    return <FallBackLoader />;
+  }
 
   return (
     <div className={styles.container}>{session ? <UserInfo /> : <Guest />}</div>
