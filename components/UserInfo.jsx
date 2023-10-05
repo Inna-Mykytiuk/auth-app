@@ -19,20 +19,13 @@ function UserInfo() {
         Email: <span className="font-bold">{session?.user?.email}</span>
       </div>
 
-      <div className="flex justify-center">
-        <button
-          className="mt-5 px-10 py-1 rounded-sm bg-indigo-500"
-          // onClick={handleSignOut}
-          onClick={() => signOut()}
-        >
-          Sign Out
-        </button>
-        {/* <Link href={'/'}>
-          <p className="mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-gray-50">
-            Sign Out
-          </p>
-        </Link> */}
-      </div>
+      <button
+        className="mt-5 px-10 py-1 rounded-sm bg-indigo-500 text-center"
+        // onClick={handleSignOut}
+        onClick={() => signOut()}
+      >
+        Sign Out
+      </button>
 
       <div className="flex justify-center">
         <Link href={'/profile'}>

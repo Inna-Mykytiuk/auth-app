@@ -15,7 +15,7 @@
 }
 
 .button:hover {
-  @apply bg-gradient-to-r from-blue-600 to-indigo-600 border-solid border-['1px'] border-blue-500;
+  @apply bg-gradient-to-r from-blue-600 to-indigo-600;
 }
 
 .button_custom {

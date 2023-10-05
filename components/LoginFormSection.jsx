@@ -116,9 +116,10 @@ const LoginFormSection = () => {
             </div>
 
             {/* login buttons */}
-            <div className={styles.button}>
-              <button type="submit">Login</button>
-            </div>
+            <button className={styles.button} type="submit">
+              Login
+            </button>
+
             {error && (
               <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
                 {error}
@@ -166,14 +167,3 @@ export { LoginFormSection };
 //   validate: loginValidate,
 //   handleSubmit,
 // });
-
-// async function onSubmit(values) {
-//   const status = await signIn('credentials', {
-//     redirect: false,
-//     email: values.email,
-//     password: values.password,
-//     callbackUrl: '/',
-//   });
-
-//   if (status.ok) router.push(status.url);
-// }

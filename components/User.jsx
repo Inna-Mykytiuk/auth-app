@@ -10,14 +10,12 @@ function User({ session, handleSignOut }) {
         <h5>{session.user.name}</h5>
       </div>
 
-      <div className="flex justify-center">
-        <button
-          className="mt-5 px-10 py-1 rounded-sm bg-indigo-500"
-          onClick={handleSignOut}
-        >
-          Sign Out
-        </button>
-      </div>
+      <button
+        className="flex mt-5 px-10 py-1 rounded-sm bg-indigo-500"
+        onClick={handleSignOut}
+      >
+        Sign Out
+      </button>
 
       <div className="flex justify-center">
         <Link href={'/profile'}>

@@ -19,12 +19,32 @@ const RegisterFormSection = () => {
   const [password, setPassword] = useState('');
   const [cpassword, setCpassword] = useState('');
   const [error, setError] = useState('');
+  const [fieldsError, setFieldsError] = useState('');
+
+  const resetForm = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+    // setCpassword('');
+  };
 
   const handleSubmit = async e => {
     e.preventDefault();
 
+    const userExistsResponse = await axios.post('/api/auth/userExists', {
+      email,
+    });
+
+    if (userExistsResponse.data.userExists) {
+      setFieldsError('User already exists');
+      setError('');
+      resetForm();
+      return;
+    }
+
     if (!name || !email || !password) {
       setError('All fields are necessary');
+      setFieldsError('');
     }
 
     try {
@@ -34,9 +54,15 @@ const RegisterFormSection = () => {
         password,
       });
       console.log('Register success', response.data);
+      resetForm();
       router.push('/login');
     } catch (error) {
-      console.error('Registration error:', error.response.data);
+      // console.error('Registration error:', error.response.data);
+      // setError('Registration error. Please try again.');
+      setFieldsError(
+        'User already Exists. please try again' || error.response.data
+      );
+      resetForm();
     }
   };
 
@@ -61,6 +87,7 @@ const RegisterFormSection = () => {
                 name="Username"
                 placeholder="Username"
                 autoComplete="current-Username"
+                value={name}
                 onChange={e => setName(e.target.value)}
               />
               <span className="icon flex items-center px-4">
@@ -73,6 +100,7 @@ const RegisterFormSection = () => {
                 className={styles.input_text}
                 type="email"
                 name="email"
+                value={email}
                 placeholder="Email"
                 autoComplete="current-email"
                 onChange={e => setEmail(e.target.value)}
@@ -87,6 +115,7 @@ const RegisterFormSection = () => {
                 className={styles.input_text}
                 type={`${show.password ? 'text' : 'password'}`}
                 name="password"
+                value={password}
                 placeholder="Password"
                 autoComplete="current-password"
                 onChange={e => setPassword(e.target.value)}
@@ -117,9 +146,15 @@ const RegisterFormSection = () => {
             </div> */}
 
             {/* register buttons */}
-            <div type="submit" className={styles.button}>
-              <button type="submit">Sign Up</button>
-            </div>
+            <button type="submit" className={styles.button}>
+              Sign Up
+            </button>
+            {fieldsError && (
+              <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                {fieldsError}
+              </div>
+            )}
+
             {error && (
               <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
                 {error}
