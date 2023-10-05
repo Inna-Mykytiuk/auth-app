@@ -14,16 +14,22 @@ export const authOptions = {
     }),
     CredentialsProvider({
       name: 'credentials',
-      credentials: {},
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+      },
 
       async authorize(credentials) {
-        const { email, password } = credentials;
+        const { email, password } = credentials || {};
 
         try {
           await connectMongoDB();
           const user = await User.findOne({ email });
 
           if (!user) {
+            return null;
+          }
+          if (!password) {
             return null;
           }
 
