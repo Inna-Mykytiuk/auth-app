@@ -15,27 +15,8 @@ const LoginFormSection = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [show, setShow] = useState(false);
+
   const router = useRouter();
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     email: '',
-  //     password: '',
-  //   },
-  //   validate: loginValidate,
-  //   handleSubmit,
-  // });
-
-  // async function onSubmit(values) {
-  //   const status = await signIn('credentials', {
-  //     redirect: false,
-  //     email: values.email,
-  //     password: values.password,
-  //     callbackUrl: '/',
-  //   });
-
-  //   if (status.ok) router.push(status.url);
-  // }
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -45,6 +26,7 @@ const LoginFormSection = () => {
         email,
         password,
         redirect: false,
+        callbackUrl: '/dashboard',
       });
 
       if (res.error) {
@@ -156,3 +138,23 @@ const LoginFormSection = () => {
 };
 
 export { LoginFormSection };
+
+// const formik = useFormik({
+//   initialValues: {
+//     email: '',
+//     password: '',
+//   },
+//   validate: loginValidate,
+//   handleSubmit,
+// });
+
+// async function onSubmit(values) {
+//   const status = await signIn('credentials', {
+//     redirect: false,
+//     email: values.email,
+//     password: values.password,
+//     callbackUrl: '/',
+//   });
+
+//   if (status.ok) router.push(status.url);
+// }
