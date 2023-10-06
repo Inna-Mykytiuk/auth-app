@@ -53,6 +53,7 @@ const RegisterFormSection = () => {
     if (!name || !email || !password) {
       setError('All fields are necessary');
       resetForm();
+      return;
       // setFieldsError('');
     }
 
