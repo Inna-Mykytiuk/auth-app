@@ -17,9 +17,28 @@ const RegisterFormSection = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [cpassword, setCpassword] = useState('');
   const [error, setError] = useState('');
-  const [fieldsError, setFieldsError] = useState('');
+  // const [cpassword, setCpassword] = useState('');
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'email':
+        setEmail(value);
+        break;
+
+      case 'password':
+        setPassword(value);
+        break;
+
+      default:
+        console.warn(`Field type name - ${name} doesn't work`);
+    }
+  };
 
   const resetForm = () => {
     setName('');
@@ -31,20 +50,10 @@ const RegisterFormSection = () => {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    const userExistsResponse = await axios.post('/api/auth/userExists', {
-      email,
-    });
-
-    if (userExistsResponse.data.userExists) {
-      setFieldsError('User already exists');
-      setError('');
-      resetForm();
-      return;
-    }
-
     if (!name || !email || !password) {
       setError('All fields are necessary');
-      setFieldsError('');
+      resetForm();
+      // setFieldsError('');
     }
 
     try {
@@ -54,16 +63,13 @@ const RegisterFormSection = () => {
         password,
       });
       console.log('Register success', response.data);
-      resetForm();
       router.push('/login');
     } catch (error) {
-      // console.error('Registration error:', error.response.data);
-      // setError('Registration error. Please try again.');
-      setFieldsError(
-        'User already Exists. please try again' || error.response.data
-      );
-      resetForm();
+      if (error.response) {
+        setError(error.response.data.error);
+      }
     }
+    resetForm();
   };
 
   return (
@@ -88,7 +94,7 @@ const RegisterFormSection = () => {
                 placeholder="Username"
                 autoComplete="current-Username"
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={handleChange}
               />
               <span className="icon flex items-center px-4">
                 <HiOutlineUser size={25} />
@@ -103,7 +109,7 @@ const RegisterFormSection = () => {
                 value={email}
                 placeholder="Email"
                 autoComplete="current-email"
-                onChange={e => setEmail(e.target.value)}
+                onChange={handleChange}
               />
               <span className="icon flex items-center px-4">
                 <HiAtSymbol size={25} />
@@ -118,7 +124,7 @@ const RegisterFormSection = () => {
                 value={password}
                 placeholder="Password"
                 autoComplete="current-password"
-                onChange={e => setPassword(e.target.value)}
+                onChange={handleChange}
               />
               <span
                 className="icon flex items-center px-4"
@@ -149,11 +155,6 @@ const RegisterFormSection = () => {
             <button type="submit" className={styles.button}>
               Sign Up
             </button>
-            {fieldsError && (
-              <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-                {fieldsError}
-              </div>
-            )}
 
             {error && (
               <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
@@ -186,60 +187,3 @@ export { RegisterFormSection };
 //   validate: registerValidate,
 //   handleSubmit,
 // });
-
-// const handleSubmit = async e => {
-//   e.preventDefault();
-
-//   if (!name || !email || !password) {
-//     setError('All fields are necessary.');
-//     return;
-//   }
-
-//   try {
-//     const resUserExists = await fetch('api/userExists', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({ email }),
-//     });
-
-//     if (resUserExists.ok) {
-//       const json = await resUserExists.json();
-//       const user = json.user;
-//     } else {
-//       console.log('Failed to check user existence.');
-//       return;
-//     }
-
-//     const { user } = await resUserExists.json();
-
-//     if (user) {
-//       setError('User already exists.');
-//       return;
-//     }
-
-//     const res = await fetch('/api/register', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify({
-//         name,
-//         email,
-//         password,
-//       }),
-//     });
-
-//     if (res.ok) {
-//       const form = e.target;
-//       form.reset();
-//       //redirect to main page(for our case its login fon now)
-//       router.push('/login');
-//     } else {
-//       console.log('User registration failed.');
-//     }
-//   } catch (error) {
-//     console.log('Error during registration: ', error);
-//   }
-// };
