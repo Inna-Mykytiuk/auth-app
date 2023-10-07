@@ -6,56 +6,73 @@ import styles from '../styles/Form.module.css';
 import Image from 'next/image';
 import { HiAtSymbol, HiFingerPrint } from 'react-icons/hi';
 import { signIn } from 'next-auth/react';
-import { registerValidate } from '@/app/lib/validate';
-import { Formik, Form, Field } from 'formik';
+import { loginValidate } from '@/app/lib/validate';
+import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 
 const LoginFormSection = () => {
+  const router = useRouter();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [show, setShow] = useState(false);
 
-  const router = useRouter();
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-
-    switch (name) {
-      case 'email':
-        setEmail(value);
-        break;
-
-      case 'password':
-        setPassword(value);
-        break;
-
-      default:
-        console.warn(`Field type name - ${name} doesn't work`);
-    }
-  };
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    try {
-      const res = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-        callbackUrl: '/dashboard',
-      });
-
-      if (res.error) {
-        setError('Invalid Credentials');
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validate: loginValidate,
+    onSubmit: async ({ email, password }) => {
+      if (!email || !password) {
+        setError('All fields are necessary');
+        setSubmitting(false);
+        // resetForm();
         return;
       }
 
-      router.replace('dashboard');
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      try {
+        const res = await signIn('credentials', {
+          email,
+          password,
+          redirect: false,
+          callbackUrl: '/dashboard',
+        });
+
+        if (res.error) {
+          setError('Invalid Credentials');
+          return;
+        }
+
+        router.replace('dashboard');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  // const handleSubmit = async e => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const res = await signIn('credentials', {
+  //       email,
+  //       password,
+  //       redirect: false,
+  //       callbackUrl: '/dashboard',
+  //     });
+
+  //     if (res.error) {
+  //       setError('Invalid Credentials');
+  //       return;
+  //     }
+
+  //     router.replace('dashboard');
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // Google Handler function
   async function handleGoogleSignin() {
@@ -77,97 +94,89 @@ const LoginFormSection = () => {
           </div>
 
           {/* form */}
-          <Formik
-            initialValues={{
-              email: '',
-              password: '',
-            }}
-            validate={registerValidate}
-            onSubmit={handleSubmit}
-          >
-            {/* {({ errors, touched, values, handleChange }) => ( */}
-            <Form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-              <div className={styles.input_group}>
-                <Field
-                  className={styles.input_text}
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={handleChange}
-                  autoComplete="current-email"
-                />
-                <span className="icon flex items-center px-4">
-                  <HiAtSymbol size={25} />
-                </span>
-              </div>
-              {/* {touched.email && errors.email && (
-                  <div className="text-[14px] text-red-500">{errors.email}</div>
-                )} */}
 
-              <div className={styles.input_group}>
-                <Field
-                  className={styles.input_text}
-                  type={`${show ? 'text' : 'password'}`}
-                  name="password"
-                  placeholder="password"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={handleChange}
-                />
-                <span
-                  className="icon flex items-center px-4"
-                  onClick={() => setShow(!show)}
-                >
-                  <HiFingerPrint size={25} />
-                </span>
+          <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
+            <div className={styles.input_group}>
+              <input
+                className={styles.input_text}
+                type="email"
+                name="email"
+                placeholder="Email"
+                autoComplete="current-email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              />
+              <span className="icon flex items-center px-4">
+                <HiAtSymbol size={25} />
+              </span>
+            </div>
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-[14px] text-red-500">
+                {formik.errors.email}
               </div>
-              {/* {touched.password && errors.password && (
-                <div className="text-[14px] text-red-500">
-                  {errors.password}
-                </div>
-              )} */}
+            )}
 
-              {/* login buttons */}
-              <button
-                className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
-                type="submit"
+            <div className={styles.input_group}>
+              <input
+                className={styles.input_text}
+                type={`${show ? 'text' : 'password'}`}
+                name="password"
+                placeholder="password"
+                autoComplete="current-password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+              />
+              <span
+                className="icon flex items-center px-4"
+                onClick={() => setShow(!show)}
               >
-                Login
-              </button>
-
-              {error && (
-                <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
-                  <p className="">{error}</p>
-                </div>
-              )}
-
-              <div className={styles.button_custom}>
-                <button
-                  type="button"
-                  className="flex gap-2"
-                  onClick={handleGoogleSignin}
-                >
-                  <p>Sign In with Google</p>
-                  <Image
-                    src={'/assets/google.svg'}
-                    alt=""
-                    width={20}
-                    height={20}
-                  ></Image>
-                </button>
+                <HiFingerPrint size={25} />
+              </span>
+            </div>
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-[14px] text-red-500">
+                {formik.errors.password}
               </div>
+            )}
 
-              {/* bottom */}
-              <p className="text-center text-gray-400 ">
-                don&apos;t have an account yet?{' '}
-                <Link href={'/register'}>
-                  <span className="text-[#394f6f]">Sign Up</span>
-                </Link>
-              </p>
-            </Form>
-            {/* )} */}
-          </Formik>
+            {/* login buttons */}
+            <button
+              className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
+              type="submit"
+            >
+              Login
+            </button>
+
+            {error && (
+              <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
+                <p className="">{error}</p>
+              </div>
+            )}
+
+            <div className={styles.button_custom}>
+              <button
+                type="button"
+                className="flex gap-2"
+                onClick={handleGoogleSignin}
+              >
+                <p>Sign In with Google</p>
+                <Image
+                  src={'/assets/google.svg'}
+                  alt=""
+                  width={20}
+                  height={20}
+                ></Image>
+              </button>
+            </div>
+
+            {/* bottom */}
+            <p className="text-center text-gray-400 ">
+              don&apos;t have an account yet?{' '}
+              <Link href={'/register'}>
+                <span className="text-[#394f6f]">Sign Up</span>
+              </Link>
+            </p>
+          </form>
         </div>
       </div>
     </div>
