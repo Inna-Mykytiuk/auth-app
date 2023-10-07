@@ -6,7 +6,10 @@ import styles from '../styles/Form.module.css';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from 'react-icons/hi';
 // import { signIn, signOut } from 'next-auth/react';
 // import { useFormik } from 'formik';
-// import { registerValidate } from '@/app/lib/validate';
+import { registerValidate } from '@/app/lib/validate';
+
+import { Formik, Form, Field } from 'formik';
+
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
@@ -75,68 +78,87 @@ const RegisterFormSection = () => {
 
   return (
     <div className="right flex flex-col justify-evenly px-10">
-      <div className="text-center py-10">
-        <div className="3/4 mx-auto flex flex-col gap-10">
+      <div className="text-center">
+        <div className="3/4 mx-auto flex flex-col gap-2 py-4">
           <div className="title">
-            <h1 className="text-gray-800 text-4xl font-bold font-dancing py-4">
+            <h1 className="text-gray-800 text-4xl font-bold font-dancing">
               Register
             </h1>
-            <p className="w-3/4 mx-auto text-gray-400">
+            <p className="hidden md:flex w-3/4 mx-auto text-gray-400">
               Complete the registration to unlock exclusive access.
             </p>
           </div>
 
           {/* form */}
-          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-            <div className={styles.input_group}>
-              <input
-                className={styles.input_text}
-                type="text"
-                name="Username"
-                placeholder="Username"
-                autoComplete="current-Username"
-                value={name}
-                onChange={handleChange}
-              />
-              <span className="icon flex items-center px-4">
-                <HiOutlineUser size={25} />
-              </span>
-            </div>
+          <Formik
+            initialValues={{
+              username: '',
+              email: '',
+              password: '',
+            }}
+            validate={registerValidate}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched, values, handleChange }) => (
+              <Form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+                <div className={styles.input_group}>
+                  <Field
+                    className={styles.input_text}
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    autoComplete="current-Username"
+                    value={values.username}
+                    onChange={handleChange}
+                  />
+                  <span className="icon flex items-center px-4">
+                    <HiOutlineUser size={25} />
+                  </span>
+                </div>
+                {touched.username && errors.username && (
+                  <div>{errors.username}</div>
+                )}
 
-            <div className={styles.input_group}>
-              <input
-                className={styles.input_text}
-                type="email"
-                name="email"
-                value={email}
-                placeholder="Email"
-                autoComplete="current-email"
-                onChange={handleChange}
-              />
-              <span className="icon flex items-center px-4">
-                <HiAtSymbol size={25} />
-              </span>
-            </div>
+                <div className={styles.input_group}>
+                  <Field
+                    className={styles.input_text}
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    autoComplete="current-email"
+                    value={values.email}
+                    onChange={handleChange}
+                  />
+                  <span className="icon flex items-center px-4">
+                    <HiAtSymbol size={25} />
+                  </span>
+                </div>
+                {touched.email && errors.email && <div>{errors.email}</div>}
 
-            <div className={styles.input_group}>
-              <input
-                className={styles.input_text}
-                type={`${show.password ? 'text' : 'password'}`}
-                name="password"
-                value={password}
-                placeholder="Password"
-                autoComplete="current-password"
-                onChange={handleChange}
-              />
-              <span
-                className="icon flex items-center px-4"
-                onClick={() => setShow({ ...show, password: !show.password })}
-              >
-                <HiFingerPrint size={25} />
-              </span>
-            </div>
+                <div className={styles.input_group}>
+                  <Field
+                    className={styles.input_text}
+                    type={`${show.password ? 'text' : 'password'}`}
+                    name="password"
+                    value={values.password}
+                    placeholder="Password"
+                    autoComplete="current-password"
+                    onChange={handleChange}
+                  />
+                  <span
+                    className="icon flex items-center px-4"
+                    onClick={() =>
+                      setShow({ ...show, password: !show.password })
+                    }
+                  >
+                    <HiFingerPrint size={25} />
+                  </span>
+                </div>
+                {touched.password && errors.password && (
+                  <div>{errors.password}</div>
+                )}
 
-            {/* <div className={styles.input_group}>
+                {/* <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type={`${show.cpassword ? 'text' : 'password'}`}
@@ -153,27 +175,29 @@ const RegisterFormSection = () => {
               </span>
             </div> */}
 
-            {/* register buttons */}
-            <button
-              type="submit"
-              className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
-            >
-              Sign Up
-            </button>
+                {/* register buttons */}
+                <button
+                  type="submit"
+                  className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
+                >
+                  Sign Up
+                </button>
 
-            {error && (
-              <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
-                {error}
-              </div>
+                {error && (
+                  <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                    {error}
+                  </div>
+                )}
+                {/* bottom */}
+                <p className="text-center text-gray-400 ">
+                  Have an account?{' '}
+                  <Link href={'/login'}>
+                    <span className="text-blue-700">Sign In</span>
+                  </Link>
+                </p>
+              </Form>
             )}
-            {/* bottom */}
-            <p className="text-center text-gray-400 ">
-              Have an account?{' '}
-              <Link href={'/login'}>
-                <span className="text-blue-700">Sign In</span>
-              </Link>
-            </p>
-          </form>
+          </Formik>
         </div>
       </div>
     </div>
