@@ -4,10 +4,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/Form.module.css';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from 'react-icons/hi';
-// import { signIn, signOut } from 'next-auth/react';
 
-import { registerValidate } from '@/app/lib/validate';
-import { Formik, Form, Field } from 'formik';
+import { registerValidate, validate } from '@/app/lib/validate';
+import { useFormik } from 'formik';
 
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -16,61 +15,68 @@ const RegisterFormSection = () => {
   const router = useRouter();
 
   const [show, setShow] = useState({ password: false, cpassword: false });
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  // const [cpassword, setCpassword] = useState('');
 
-  const handleChange = e => {
-    const { name, value } = e.target;
+  // function validate(values) {
+  //   const errors = {};
 
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'email':
-        setEmail(value);
-        break;
-      case 'password':
-        setPassword(value);
-        break;
-      default:
-        console.warn(`Field type name - ${name} doesn't work`);
-    }
-  };
+  //   if (!values.name) {
+  //     errors.name = 'Required';
+  //   } else if (values.name.includes(' ')) {
+  //     errors.name = 'Invalid Username...!';
+  //   }
 
-  // const resetForm = () => {
-  //   setName('');
-  //   setEmail('');
-  //   setPassword('');
-  //   // setCpassword('');
-  // };
+  //   if (!values.email) {
+  //     errors.email = 'Required';
+  //   } else if (
+  //     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+  //   ) {
+  //     errors.email = 'Invalid email address';
+  //   }
 
-  const handleSubmit = async e => {
-    e.preventDefault();
+  //   // validation for password
+  //   if (!values.password) {
+  //     errors.password = 'Required';
+  //   } else if (values.password.length < 8 || values.password.length > 20) {
+  //     errors.password =
+  //       'Must be greater then 8 and less then 20 characters long';
+  //   } else if (values.password.includes(' ')) {
+  //     errors.password = 'Invalid Password';
+  //   }
 
-    if (!name || !email || !password) {
-      setError('All fields are necessary');
-      // resetForm();
-      return;
-    }
+  //   return errors;
+  // }
 
-    try {
-      const response = await axios.post('/api/auth/register', {
-        name,
-        email,
-        password,
-      });
-      console.log('Register success', response.data);
-      router.push('/login');
-    } catch (error) {
-      if (error.response) {
-        setError(error.response.data.error);
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+    validate: registerValidate,
+    onSubmit: async ({ name, email, password }) => {
+      if (!name || !email || !password) {
+        setError('All fields are necessary');
+        setSubmitting(false);
+        // resetForm();
+        return;
       }
-    }
-    // resetForm();
-  };
+
+      try {
+        const response = await axios.post('/api/auth/register', {
+          name,
+          email,
+          password,
+        });
+        console.log('Register success', response.data);
+        router.push('/login');
+      } catch (error) {
+        if (error.response) {
+          setError(error.response.data.error);
+        }
+      }
+    },
+  });
 
   return (
     <div className="right flex flex-col justify-evenly px-10">
@@ -86,116 +92,95 @@ const RegisterFormSection = () => {
           </div>
 
           {/* form */}
-          <Formik
-            initialValues={{
-              name: '',
-              email: '',
-              password: '',
-            }}
-            validate={registerValidate}
-            onSubmit={handleSubmit}
-          >
-            {/* {({ errors, touched, values, handleChange }) => ( */}
-            <Form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-              <div className={styles.input_group}>
-                <Field
-                  className={styles.input_text}
-                  type="text"
-                  name="name"
-                  placeholder="Username"
-                  autoComplete="current-name"
-                  value={name}
-                  onChange={handleChange}
-                />
-                <span className="icon flex items-center px-4">
-                  <HiOutlineUser size={25} />
-                </span>
-              </div>
-              {/* {touched.name && errors.name && (
-                <div className="text-[14px] text-red-500">{errors.name}</div>
-              )} */}
 
-              <div className={styles.input_group}>
-                <Field
-                  className={styles.input_text}
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  autoComplete="current-email"
-                  value={email}
-                  onChange={handleChange}
-                />
-                <span className="icon flex items-center px-4">
-                  <HiAtSymbol size={25} />
-                </span>
-              </div>
-              {/* {touched.email && errors.email && (
-                <div className="text-[14px] text-red-500">{errors.email}</div>
-              )} */}
-
-              <div className={styles.input_group}>
-                <Field
-                  className={styles.input_text}
-                  type={`${show.password ? 'text' : 'password'}`}
-                  name="password"
-                  value={password}
-                  placeholder="Password"
-                  autoComplete="current-password"
-                  onChange={handleChange}
-                />
-                <span
-                  className="icon flex items-center px-4"
-                  onClick={() => setShow({ ...show, password: !show.password })}
-                >
-                  <HiFingerPrint size={25} />
-                </span>
-              </div>
-              {/* {touched.password && errors.password && (
-                <div className="text-[14px] text-red-500">
-                  {errors.password}
-                </div>
-              )} */}
-
-              {/* <div className={styles.input_group}>
+          <form className="flex flex-col gap-5" onSubmit={formik.handleSubmit}>
+            <div className={styles.input_group}>
               <input
                 className={styles.input_text}
-                type={`${show.cpassword ? 'text' : 'password'}`}
-                name="cpassword"
-                placeholder="Confirm password"
+                type="text"
+                name="name"
+                placeholder="Username"
+                autoComplete="current-name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+              />
+              <span className="icon flex items-center px-4">
+                <HiOutlineUser size={25} />
+              </span>
+            </div>
+            {/* {touched.name && errors.name && (
+              <div className="text-[14px] text-red-500">{errors.name}</div>
+            )} */}
+            {formik.touched.name && formik.errors.name && (
+              <div className="text-[14px] text-red-500">
+                {formik.errors.name}
+              </div>
+            )}
+
+            <div className={styles.input_group}>
+              <input
+                className={styles.input_text}
+                type="email"
+                name="email"
+                placeholder="Email"
+                autoComplete="current-email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+              />
+              <span className="icon flex items-center px-4">
+                <HiAtSymbol size={25} />
+              </span>
+            </div>
+            {formik.touched.email && formik.errors.email && (
+              <div className="text-[14px] text-red-500">
+                {formik.errors.email}
+              </div>
+            )}
+
+            <div className={styles.input_group}>
+              <input
+                className={styles.input_text}
+                type={`${show.password ? 'text' : 'password'}`}
+                name="password"
+                value={formik.values.password}
+                placeholder="Password"
                 autoComplete="current-password"
-                onChange={e => setCpassword(e.target.value)}
+                onChange={formik.handleChange}
               />
               <span
                 className="icon flex items-center px-4"
-                onClick={() => setShow({ ...show, cpassword: !show.cpassword })}
+                onClick={() => setShow({ ...show, password: !show.password })}
               >
                 <HiFingerPrint size={25} />
               </span>
-            </div> */}
+            </div>
+            {formik.touched.password && formik.errors.password && (
+              <div className="text-[14px] text-red-500">
+                {formik.errors.password}
+              </div>
+            )}
 
-              {/* register buttons */}
-              <button
-                type="submit"
-                className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
-              >
-                Sign Up
-              </button>
+            {/* register buttons */}
+            <button
+              type="submit"
+              className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
+            >
+              Sign Up
+            </button>
 
-              {error && (
-                <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
-                  {error}
-                </div>
-              )}
-              {/* bottom */}
-              <p className="text-center text-gray-400 ">
-                Have an account?{' '}
-                <Link href={'/login'}>
-                  <span className="text-[#394f6f]">Sign In</span>
-                </Link>
-              </p>
-            </Form>
-            {/* )} */}
-          </Formik>
+            {error && (
+              <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
+                {error}
+              </div>
+            )}
+            {/* bottom */}
+            <p className="text-center text-gray-400 ">
+              Have an account?{' '}
+              <Link href={'/login'}>
+                <span className="text-[#394f6f]">Sign In</span>
+              </Link>
+            </p>
+          </form>
         </div>
       </div>
     </div>
@@ -203,14 +188,3 @@ const RegisterFormSection = () => {
 };
 
 export { RegisterFormSection };
-
-// const formik = useFormik({
-//   initialValues: {
-//     username: '',
-//     email: '',
-//     password: '',
-//     cpassword: '',
-//   },
-//   validate: registerValidate,
-//   handleSubmit,
-// });

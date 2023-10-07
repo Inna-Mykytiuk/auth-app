@@ -1,4 +1,4 @@
-function loginValidate(values) {
+export function loginValidate(values) {
   const errors = {};
 
   if (!values.email) {
@@ -19,13 +19,13 @@ function loginValidate(values) {
   return errors;
 }
 
-function registerValidate(values) {
+export function registerValidate(values) {
   const errors = {};
 
-  if (!values.username) {
-    errors.username = 'Required';
-  } else if (values.username.includes(' ')) {
-    errors.username = 'Invalid Username...!';
+  if (!values.name) {
+    errors.name = 'Required';
+  } else if (values.name.includes(' ')) {
+    errors.name = 'Invalid Username...!';
   }
 
   if (!values.email) {
@@ -38,21 +38,10 @@ function registerValidate(values) {
   if (!values.password) {
     errors.password = 'Required';
   } else if (values.password.length < 8 || values.password.length > 20) {
-    errors.password = 'Must be greater then 8 and less then 20 characters long';
+    errors.password = 'Must be greater than 8 and less than 20 characters long';
   } else if (values.password.includes(' ')) {
     errors.password = 'Invalid Password';
   }
 
-  // validate confirm password
-  if (!values.cpassword) {
-    errors.cpassword = 'Required';
-  } else if (values.password !== values.cpassword) {
-    errors.cpassword = 'Password Not Match...!';
-  } else if (values.cpassword.includes(' ')) {
-    errors.cpassword = 'Invalid Confirm Password';
-  }
-
   return errors;
 }
-
-export { loginValidate, registerValidate };
