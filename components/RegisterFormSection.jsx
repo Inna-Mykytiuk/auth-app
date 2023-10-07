@@ -197,7 +197,7 @@ const RegisterFormSection = () => {
                 <p className="text-center text-gray-400 ">
                   Have an account?{' '}
                   <Link href={'/login'}>
-                    <span className="text-blue-700">Sign In</span>
+                    <span className="text-[#394f6f]">Sign In</span>
                   </Link>
                 </p>
               </Form>

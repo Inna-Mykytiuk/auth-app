@@ -158,7 +158,7 @@ const LoginFormSection = () => {
                 <p className="text-center text-gray-400 ">
                   don&apos;t have an account yet?{' '}
                   <Link href={'/register'}>
-                    <span className="text-blue-700">Sign Up</span>
+                    <span className="text-[#394f6f]">Sign Up</span>
                   </Link>
                 </p>
               </Form>
@@ -171,12 +171,3 @@ const LoginFormSection = () => {
 };
 
 export { LoginFormSection };
-
-// const formik = useFormik({
-//   initialValues: {
-//     email: '',
-//     password: '',
-//   },
-//   validate: loginValidate,
-//   handleSubmit,
-// });

@@ -1,5 +1,5 @@
 .imgStyle {
-  @apply bg-gradient-to-r from-blue-500 to-indigo-500 rounded-tl-md rounded-bl-md;
+  @apply bg-gradient-to-r from-[#bfd0eb] to-[#647894] rounded-tl-md rounded-bl-md;
   position: relative;
   overflow: hidden;
 }
@@ -19,29 +19,29 @@
 }
 
 .cloud_one {
-  background: url('/assets/cloud_1.png') no-repeat;
-  position: absolute;
-  top: 65%;
-  left: 10%;
-  width: 180px;
-  height: 100px;
-  background-size: contain;
-  z-index: 2;
-  transform: translateX(290%);
-  animation: cloud_one 16s ease-in 2.9s infinite;
-}
-
-.cloud_two {
-  background: url('/assets/cloud_2.png') no-repeat;
+  background: url('/assets/cloud5.png') no-repeat;
   position: absolute;
   top: 49%;
   left: 50%;
-  width: 200px;
-  height: 100px;
+  width: 300px;
+  height: 150px;
   background-size: contain;
   z-index: 0;
   transform: translateX(290%);
   animation: cloud_two 10s ease-in 0.9s infinite;
+}
+
+.cloud_two {
+  background: url('/assets/cloud5.png') no-repeat;
+  position: absolute;
+  top: 65%;
+  left: 10%;
+  width: 280px;
+  height: 120px;
+  background-size: contain;
+  z-index: 2;
+  transform: translateX(290%);
+  animation: cloud_one 16s ease-in 2.9s infinite;
 }
 
 /* css keyframes */

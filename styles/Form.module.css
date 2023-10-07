@@ -9,17 +9,18 @@
 }
 
 .button {
-  @apply max-w-[200px] sm:max-w-full mx-auto my-auto sm:m-0 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-md;
+  @apply max-w-[200px] sm:max-w-full mx-auto my-auto sm:m-0 bg-gradient-to-r from-[#bfd0eb] to-[#647894] rounded-md;
   @apply py-3 text-gray-50 text-lg;
-  @apply transition duration-500 ease-in-out cursor-pointer;
+  @apply transition duration-300 ease-out hover:ease-in;
 }
 
 .button:hover {
-  @apply bg-gradient-to-r from-blue-600 to-indigo-600;
+  @apply bg-gradient-to-r from-[#a8b7cf] to-[#53647b];
 }
 
 .button_custom {
-  @apply w-full border py-3 flex justify-center gap-2 hover:bg-gray-200 cursor-pointer;
+  @apply w-full border py-3 flex justify-center gap-2 hover:bg-[#e4eaf3] cursor-pointer;
+  @apply transition duration-500 ease-in-out cursor-pointer;
 }
 
 .input_text + * {
