@@ -9,7 +9,9 @@ const UserProfile = () => {
   return (
     <main className="container mx-auto text-center items-center py-20 h-full justify-between flex flex-col gap-6">
       <div className="flex">
-        <h3 className="text-4xl font-bold font-dancing">Make</h3>
+        <h3 className="text-4xl font-bold font-dancing">
+          Make your most important trip
+        </h3>
       </div>
       <div>
         <p>
