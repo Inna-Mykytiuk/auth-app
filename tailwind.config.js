@@ -86,6 +86,7 @@ module.exports = {
       }),
       fontFamily: {
         popins: ['Poppins', 'sans-serif'],
+        dancing: ['Dancing Script', 'cursive'],
       },
       content: {
         homeBg: "url('./assets/forest/forest7.jpg')",

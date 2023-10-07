@@ -12,8 +12,8 @@ export default function RootLayout({ children, session }) {
     <html lang="en">
       <body className="bg-blue-400">
         <AuthProvider>
-          <main className=" bg-slate-50 rounded-md w-3/5 h-3/4 grid lg:grid-cols-2">
-            <ImageSection />
+          <main className=" bg-slate-50 rounded-md w-4/5 sm:w-3/5 sm:h-3/4 sm:grid sm:grid-cols-2">
+            <ImageSection className="display-none" />
             {children}
           </main>
         </AuthProvider>
