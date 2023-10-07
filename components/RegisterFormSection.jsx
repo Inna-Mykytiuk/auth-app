@@ -5,9 +5,8 @@ import Link from 'next/link';
 import styles from '../styles/Form.module.css';
 import { HiAtSymbol, HiFingerPrint, HiOutlineUser } from 'react-icons/hi';
 // import { signIn, signOut } from 'next-auth/react';
-// import { useFormik } from 'formik';
-import { registerValidate } from '@/app/lib/validate';
 
+import { registerValidate } from '@/app/lib/validate';
 import { Formik, Form, Field } from 'formik';
 
 import { useRouter } from 'next/navigation';
@@ -81,7 +80,7 @@ const RegisterFormSection = () => {
       <div className="text-center">
         <div className="3/4 mx-auto flex flex-col gap-2 py-4">
           <div className="title">
-            <h1 className="text-gray-800 text-4xl font-bold font-dancing">
+            <h1 className="text-gray-800 text-4xl font-bold font-dancing mb-4">
               Register
             </h1>
             <p className="hidden md:flex w-3/4 mx-auto text-gray-400">
@@ -116,7 +115,9 @@ const RegisterFormSection = () => {
                   </span>
                 </div>
                 {touched.username && errors.username && (
-                  <div>{errors.username}</div>
+                  <div className="text-[14px] text-red-500">
+                    {errors.username}
+                  </div>
                 )}
 
                 <div className={styles.input_group}>
@@ -133,7 +134,9 @@ const RegisterFormSection = () => {
                     <HiAtSymbol size={25} />
                   </span>
                 </div>
-                {touched.email && errors.email && <div>{errors.email}</div>}
+                {touched.email && errors.email && (
+                  <div className="text-[14px] text-red-500">{errors.email}</div>
+                )}
 
                 <div className={styles.input_group}>
                   <Field
@@ -155,7 +158,9 @@ const RegisterFormSection = () => {
                   </span>
                 </div>
                 {touched.password && errors.password && (
-                  <div>{errors.password}</div>
+                  <div className="text-[14px] text-red-500">
+                    {errors.password}
+                  </div>
                 )}
 
                 {/* <div className={styles.input_group}>
@@ -184,7 +189,7 @@ const RegisterFormSection = () => {
                 </button>
 
                 {error && (
-                  <div className="bg-red-500 text-white w-fit text-sm py-1 px-3 rounded-md mt-2">
+                  <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
                     {error}
                   </div>
                 )}
