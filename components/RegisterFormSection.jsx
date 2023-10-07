@@ -28,7 +28,6 @@ const RegisterFormSection = () => {
       if (!name || !email || !password) {
         setError('All fields are necessary');
         setSubmitting(false);
-        // resetForm();
         return;
       }
 
@@ -78,9 +77,6 @@ const RegisterFormSection = () => {
                 <HiOutlineUser size={25} />
               </span>
             </div>
-            {/* {touched.name && errors.name && (
-              <div className="text-[14px] text-red-500">{errors.name}</div>
-            )} */}
             {formik.touched.name && formik.errors.name && (
               <div className="text-[14px] text-red-500">
                 {formik.errors.name}
