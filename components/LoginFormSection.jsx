@@ -85,84 +85,88 @@ const LoginFormSection = () => {
             validate={registerValidate}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched, values, handleChange }) => (
-              <Form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-                <div className={styles.input_group}>
-                  <Field
-                    className={styles.input_text}
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    autoComplete="current-email"
-                  />
-                  <span className="icon flex items-center px-4">
-                    <HiAtSymbol size={25} />
-                  </span>
-                </div>
-                {touched.email && errors.email && (
+            {/* {({ errors, touched, values, handleChange }) => ( */}
+            <Form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+              <div className={styles.input_group}>
+                <Field
+                  className={styles.input_text}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={handleChange}
+                  autoComplete="current-email"
+                />
+                <span className="icon flex items-center px-4">
+                  <HiAtSymbol size={25} />
+                </span>
+              </div>
+              {/* {touched.email && errors.email && (
                   <div className="text-[14px] text-red-500">{errors.email}</div>
-                )}
+                )} */}
 
-                <div className={styles.input_group}>
-                  <Field
-                    className={styles.input_text}
-                    type={`${show ? 'text' : 'password'}`}
-                    name="password"
-                    placeholder="password"
-                    autoComplete="current-password"
-                  />
-                  <span
-                    className="icon flex items-center px-4"
-                    onClick={() => setShow(!show)}
-                  >
-                    <HiFingerPrint size={25} />
-                  </span>
-                </div>
-                {touched.password && errors.password && (
-                  <div className="text-[14px] text-red-500">
-                    {errors.password}
-                  </div>
-                )}
-
-                {/* login buttons */}
-                <button
-                  className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
-                  type="submit"
+              <div className={styles.input_group}>
+                <Field
+                  className={styles.input_text}
+                  type={`${show ? 'text' : 'password'}`}
+                  name="password"
+                  placeholder="password"
+                  autoComplete="current-password"
+                  value={password}
+                  onChange={handleChange}
+                />
+                <span
+                  className="icon flex items-center px-4"
+                  onClick={() => setShow(!show)}
                 >
-                  Login
-                </button>
-
-                {error && (
-                  <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
-                    <p className="">{error}</p>
-                  </div>
-                )}
-
-                <div className={styles.button_custom}>
-                  <button
-                    type="button"
-                    className="flex gap-2"
-                    onClick={handleGoogleSignin}
-                  >
-                    <p>Sign In with Google</p>
-                    <Image
-                      src={'/assets/google.svg'}
-                      alt=""
-                      width={20}
-                      height={20}
-                    ></Image>
-                  </button>
+                  <HiFingerPrint size={25} />
+                </span>
+              </div>
+              {/* {touched.password && errors.password && (
+                <div className="text-[14px] text-red-500">
+                  {errors.password}
                 </div>
+              )} */}
 
-                {/* bottom */}
-                <p className="text-center text-gray-400 ">
-                  don&apos;t have an account yet?{' '}
-                  <Link href={'/register'}>
-                    <span className="text-[#394f6f]">Sign Up</span>
-                  </Link>
-                </p>
-              </Form>
-            )}
+              {/* login buttons */}
+              <button
+                className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
+                type="submit"
+              >
+                Login
+              </button>
+
+              {error && (
+                <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
+                  <p className="">{error}</p>
+                </div>
+              )}
+
+              <div className={styles.button_custom}>
+                <button
+                  type="button"
+                  className="flex gap-2"
+                  onClick={handleGoogleSignin}
+                >
+                  <p>Sign In with Google</p>
+                  <Image
+                    src={'/assets/google.svg'}
+                    alt=""
+                    width={20}
+                    height={20}
+                  ></Image>
+                </button>
+              </div>
+
+              {/* bottom */}
+              <p className="text-center text-gray-400 ">
+                don&apos;t have an account yet?{' '}
+                <Link href={'/register'}>
+                  <span className="text-[#394f6f]">Sign Up</span>
+                </Link>
+              </p>
+            </Form>
+            {/* )} */}
           </Formik>
         </div>
       </div>

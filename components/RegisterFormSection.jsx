@@ -32,31 +32,28 @@ const RegisterFormSection = () => {
       case 'email':
         setEmail(value);
         break;
-
       case 'password':
         setPassword(value);
         break;
-
       default:
         console.warn(`Field type name - ${name} doesn't work`);
     }
   };
 
-  const resetForm = () => {
-    setName('');
-    setEmail('');
-    setPassword('');
-    // setCpassword('');
-  };
+  // const resetForm = () => {
+  //   setName('');
+  //   setEmail('');
+  //   setPassword('');
+  //   // setCpassword('');
+  // };
 
   const handleSubmit = async e => {
     e.preventDefault();
 
     if (!name || !email || !password) {
       setError('All fields are necessary');
-      resetForm();
+      // resetForm();
       return;
-      // setFieldsError('');
     }
 
     try {
@@ -72,7 +69,7 @@ const RegisterFormSection = () => {
         setError(error.response.data.error);
       }
     }
-    resetForm();
+    // resetForm();
   };
 
   return (
@@ -91,79 +88,75 @@ const RegisterFormSection = () => {
           {/* form */}
           <Formik
             initialValues={{
-              username: '',
+              name: '',
               email: '',
               password: '',
             }}
             validate={registerValidate}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched, values, handleChange }) => (
-              <Form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-                <div className={styles.input_group}>
-                  <Field
-                    className={styles.input_text}
-                    type="text"
-                    name="username"
-                    placeholder="Username"
-                    autoComplete="current-Username"
-                    value={values.username}
-                    onChange={handleChange}
-                  />
-                  <span className="icon flex items-center px-4">
-                    <HiOutlineUser size={25} />
-                  </span>
-                </div>
-                {touched.username && errors.username && (
-                  <div className="text-[14px] text-red-500">
-                    {errors.username}
-                  </div>
-                )}
+            {/* {({ errors, touched, values, handleChange }) => ( */}
+            <Form className="flex flex-col gap-5" onSubmit={handleSubmit}>
+              <div className={styles.input_group}>
+                <Field
+                  className={styles.input_text}
+                  type="text"
+                  name="name"
+                  placeholder="Username"
+                  autoComplete="current-name"
+                  value={name}
+                  onChange={handleChange}
+                />
+                <span className="icon flex items-center px-4">
+                  <HiOutlineUser size={25} />
+                </span>
+              </div>
+              {/* {touched.name && errors.name && (
+                <div className="text-[14px] text-red-500">{errors.name}</div>
+              )} */}
 
-                <div className={styles.input_group}>
-                  <Field
-                    className={styles.input_text}
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    autoComplete="current-email"
-                    value={values.email}
-                    onChange={handleChange}
-                  />
-                  <span className="icon flex items-center px-4">
-                    <HiAtSymbol size={25} />
-                  </span>
-                </div>
-                {touched.email && errors.email && (
-                  <div className="text-[14px] text-red-500">{errors.email}</div>
-                )}
+              <div className={styles.input_group}>
+                <Field
+                  className={styles.input_text}
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  autoComplete="current-email"
+                  value={email}
+                  onChange={handleChange}
+                />
+                <span className="icon flex items-center px-4">
+                  <HiAtSymbol size={25} />
+                </span>
+              </div>
+              {/* {touched.email && errors.email && (
+                <div className="text-[14px] text-red-500">{errors.email}</div>
+              )} */}
 
-                <div className={styles.input_group}>
-                  <Field
-                    className={styles.input_text}
-                    type={`${show.password ? 'text' : 'password'}`}
-                    name="password"
-                    value={values.password}
-                    placeholder="Password"
-                    autoComplete="current-password"
-                    onChange={handleChange}
-                  />
-                  <span
-                    className="icon flex items-center px-4"
-                    onClick={() =>
-                      setShow({ ...show, password: !show.password })
-                    }
-                  >
-                    <HiFingerPrint size={25} />
-                  </span>
+              <div className={styles.input_group}>
+                <Field
+                  className={styles.input_text}
+                  type={`${show.password ? 'text' : 'password'}`}
+                  name="password"
+                  value={password}
+                  placeholder="Password"
+                  autoComplete="current-password"
+                  onChange={handleChange}
+                />
+                <span
+                  className="icon flex items-center px-4"
+                  onClick={() => setShow({ ...show, password: !show.password })}
+                >
+                  <HiFingerPrint size={25} />
+                </span>
+              </div>
+              {/* {touched.password && errors.password && (
+                <div className="text-[14px] text-red-500">
+                  {errors.password}
                 </div>
-                {touched.password && errors.password && (
-                  <div className="text-[14px] text-red-500">
-                    {errors.password}
-                  </div>
-                )}
+              )} */}
 
-                {/* <div className={styles.input_group}>
+              {/* <div className={styles.input_group}>
               <input
                 className={styles.input_text}
                 type={`${show.cpassword ? 'text' : 'password'}`}
@@ -180,28 +173,28 @@ const RegisterFormSection = () => {
               </span>
             </div> */}
 
-                {/* register buttons */}
-                <button
-                  type="submit"
-                  className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
-                >
-                  Sign Up
-                </button>
+              {/* register buttons */}
+              <button
+                type="submit"
+                className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
+              >
+                Sign Up
+              </button>
 
-                {error && (
-                  <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
-                    {error}
-                  </div>
-                )}
-                {/* bottom */}
-                <p className="text-center text-gray-400 ">
-                  Have an account?{' '}
-                  <Link href={'/login'}>
-                    <span className="text-[#394f6f]">Sign In</span>
-                  </Link>
-                </p>
-              </Form>
-            )}
+              {error && (
+                <div className="bg-red-500 text-white flex items-center justify-center w-2/4 mx-auto text-sm py-1 px-3 rounded-md mt-2">
+                  {error}
+                </div>
+              )}
+              {/* bottom */}
+              <p className="text-center text-gray-400 ">
+                Have an account?{' '}
+                <Link href={'/login'}>
+                  <span className="text-[#394f6f]">Sign In</span>
+                </Link>
+              </p>
+            </Form>
+            {/* )} */}
           </Formik>
         </div>
       </div>
