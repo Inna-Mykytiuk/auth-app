@@ -16,6 +16,7 @@ const RegisterFormSection = () => {
 
   const [show, setShow] = useState({ password: false, cpassword: false });
   const [error, setError] = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -27,11 +28,11 @@ const RegisterFormSection = () => {
     onSubmit: async ({ name, email, password }) => {
       if (!name || !email || !password) {
         setError('All fields are necessary');
-        setSubmitting(false);
         return;
       }
 
       try {
+        setSubmitting(true);
         const response = await axios.post('/api/auth/register', {
           name,
           email,
@@ -43,6 +44,8 @@ const RegisterFormSection = () => {
         if (error.response) {
           setError(error.response.data.error);
         }
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -129,7 +132,12 @@ const RegisterFormSection = () => {
             {/* register buttons */}
             <button
               type="submit"
-              className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
+              disabled={isSubmitting}
+              className={`${
+                styles.button
+              } w-[300px] sm:w-full mx-auto my-auto md:m-0 ${
+                isSubmitting ? 'disabled' : ''
+              }`}
             >
               Sign Up
             </button>

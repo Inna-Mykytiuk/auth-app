@@ -18,6 +18,11 @@
   @apply bg-gradient-to-r from-[#a8b7cf] to-[#53647b];
 }
 
+.disabled {
+  @apply max-w-[200px] sm:max-w-full mx-auto my-auto sm:m-0 bg-gray-400  rounded-md;
+  @apply cursor-not-allowed text-gray-600;
+}
+
 .button_custom {
   @apply w-full border py-3 flex justify-center gap-2 hover:bg-[#e4eaf3] cursor-pointer;
   @apply transition duration-500 ease-in-out cursor-pointer;
