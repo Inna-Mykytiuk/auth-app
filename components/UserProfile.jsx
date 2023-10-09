@@ -2,8 +2,6 @@
 
 import Link from 'next/link';
 import styles from '../styles/Form.module.css';
-// import { useRouter } from 'next/navigation';
-// import { useSession } from 'next-auth/react';
 
 const UserProfile = () => {
   return (

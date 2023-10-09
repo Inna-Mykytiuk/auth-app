@@ -15,6 +15,7 @@ const LoginFormSection = () => {
 
   const [error, setError] = useState('');
   const [show, setShow] = useState(false);
+  const [isSubmitting, setSubmitting] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +31,7 @@ const LoginFormSection = () => {
       }
 
       try {
+        setSubmitting(true);
         const res = await signIn('credentials', {
           email,
           password,
@@ -45,6 +47,8 @@ const LoginFormSection = () => {
         router.replace('dashboard');
       } catch (error) {
         console.log(error);
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -116,8 +120,13 @@ const LoginFormSection = () => {
 
             {/* login buttons */}
             <button
-              className={`${styles.button} w-[300px] sm:w-full mx-auto my-auto md:m-0`}
+              className={`${
+                styles.button
+              } w-[300px] sm:w-full mx-auto my-auto md:m-0 ${
+                isSubmitting ? 'disabled' : ''
+              }`}
               type="submit"
+              disabled={isSubmitting}
             >
               Login
             </button>

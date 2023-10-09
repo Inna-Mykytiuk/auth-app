@@ -29,9 +29,6 @@ function UserInfo() {
             priority
           />
         )}
-        {/* <div>
-          Name: <span className="font-bold">{session?.user?.name}</span>
-        </div> */}
         <div>
           Email:{' '}
           <span className=" flex flex-wrap font-bold">
